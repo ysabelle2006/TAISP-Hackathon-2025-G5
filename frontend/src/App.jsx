@@ -65,10 +65,10 @@ function App() {
         <ToastContainer position="bottom-right" autoClose={3000} />
         <Routes>
           {/* Smart root route */}
-          <Route path="/" element={<RootRoute />} />
+          <Route path="/" element={<Home />} />
 
           {/* Public routes */}
-          <Route path="/home" element={<Home />} />
+          {/*<Route path="/home" element={<Home />} />*/}
 
         </Routes>
       </BrowserRouter>
