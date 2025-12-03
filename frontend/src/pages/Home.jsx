@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import dinner from "../assets/dinner.jpg";
-import textbox from "../assets/textbox.png";
 import "../style/style.css";
 
 export default function Home() {
@@ -31,7 +30,7 @@ export default function Home() {
   const people = [
     {
       coordX: 695,
-      coordY: 192,
+      coordY: 210,
       text: [
         "…the trip was… incredible… so many… mon—…",
         "…your dad almost fell when the mon— grabbed the bag…",
@@ -49,7 +48,7 @@ export default function Home() {
     {
       name: "Dad",
       coordX: 885,
-      coordY: 201,
+      coordY: 221,
       text: [
         "…",
         "…the fisherman showed me a huge snap— snapper?…",
@@ -66,7 +65,7 @@ export default function Home() {
     {
       name: "Grandma",
       coordX: 1129,
-      coordY: 197,
+      coordY: 220,
       text: [
         "…the plane ride… seven hours… turbulence…",
         "…my ears were popping non-stop… horrible…",
@@ -83,7 +82,7 @@ export default function Home() {
     {
       name: "Sister",
       coordX: 439,
-      coordY: 185,
+      coordY: 205,
       text: [
         "…the squid there? soooo good… spicy…",
         "…",
@@ -116,7 +115,11 @@ export default function Home() {
 
   return (
     <div>
-      <div style={{ width: "50%", margin: "0 auto" }}>
+      <div style={{ 
+        width: "50%", 
+        margin: "0 auto" 
+        }}
+        >
         <img className="" src={dinner} />
       </div>
       <div
@@ -125,7 +128,7 @@ export default function Home() {
           position: "absolute",
           // Use transform for better performance than 'top' and 'left'
           // Translate by -50% to center the box on the cursor
-          transform: `translate(${position.x - 150}px, ${position.y - 655}px)`,
+          transform: `translate(${position.x - 150}px, ${position.y - 770}px)`,
           height: "150px",
           width: "300px",
           border: "1px solid white",
@@ -134,15 +137,36 @@ export default function Home() {
 
       <div
         style={{
-          backgroundImage: `url(${textbox})`
+        position: "absolute",
+        bottom: 0,
+        left: "50%",
+        transform: "translateX(-50%)", // center horizontally
+        width: "80%",                  // stretch across most of the screen
+        height: "200px",               // adjust height as needed
+        backgroundColor: "rgba(50, 50, 50, 0.7)", // semi-transparent grey
+        borderRadius: "10px",          // optional rounded corners
+        padding: "20px",
+        color: "#fff",
+        fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
         }}
       >
         {people.map((person) => (
-          <p style={{ filter: `blur(${timeStamp / 3}px)` }}>
-            {person.name}:{" "}
-            {checkInside(person.coordX, person.coordY)
-              ? person.text[timeStamp]
-              : ""}
+          <p key={person.name}
+          style={{
+            filter: `blur(${timeStamp / 3}px)`,
+            fontSize: "20px",
+            lineHeight: 1.0,
+            margin: "10px 0"
+          }}
+        >
+          <strong>{person.name}:</strong>{" "}
+          {checkInside(person.coordX, person.coordY)
+            ? person.text[timeStamp]
+            : ""}
+
           </p>
         ))}
       </div>
