@@ -1,0 +1,63 @@
+/* Reset some default browser styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #333; /* Dark background for the page */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* The main game screen area */
+.game-screen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Aligns text box to bottom */
+    padding-bottom: 50px; /* Space from bottom of screen */
+    background-image: url('../assets/background.jpg'); /* Optional: Scene background */
+    background-size: cover;
+}
+
+/* The Text Box Container */
+.vn-textbox-container {
+    /* Link to your image file here */
+    background-image: url('../assets/textbox_bg.png'); 
+    background-size: 100% 100%; /* Stretches image to fit container */
+    background-repeat: no-repeat;
+    
+    /* Size of the text box - Adjust these to match your image's aspect ratio */
+    width: 800px; 
+    height: 250px; 
+    
+    position: relative; /* Allows us to position text absolutely inside */
+}
+
+/* Character Name Style */
+.vn-name {
+    position: absolute;
+    
+    /* Adjust these values to move the name into the small top-left box */
+    top: 15px;  
+    left: 20px;
+    width: 200px; /* Width of the name box area */
+    
+    color: #ffffff; /* White text */
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px #000000; /* Shadow for readability */
+}
+
+/* Dialogue Text Style */
+.vn-text {
+    position: absolute;
+    
+    /* Adjust these values to fit text inside the main blue box */
+    top: 70px;    /* Push text down below the name box */
+    left: 40px;   /* Push text away from left edge */
+    right: 40px;  /* Keep text away from right edge */
+    bottom: 20px; /* Keep text away from bottom edge */
+    
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1.5; /* Spacing between lines */
+}
