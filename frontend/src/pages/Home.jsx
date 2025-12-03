@@ -5,7 +5,6 @@ import dinner from "../assets/dinner.jpg";
 export default function Home() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [timeStamp, setTimeStamp] = useState(0);
-  const [start, setStart] = useState(false);
   const [timer, setTimer] = useState(undefined);
 
   const checkInside = (coordX, coordY) => {
@@ -22,13 +21,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (start) {
-      if (timer) {
-        window.clearTimeout(timer);
-      }
-      setTimer(window.setTimeout(() => setTimeStamp(timeStamp + 1), 3000));
+    if (timer) {
+      window.clearTimeout(timer);
     }
-  }, [start, timeStamp]);
+    setTimer(window.setTimeout(() => setTimeStamp(timeStamp + 1), 3000));
+  }, [timeStamp]);
 
   const people = [
     {
@@ -136,7 +133,7 @@ export default function Home() {
 
       {people.map((person) => (
         <div>
-          <p>
+          <p style={{filter:`blur(${timeStamp/3}px)`}}>
             {person.name}:{" "}
             {checkInside(person.coordX, person.coordY)
               ? person.text[timeStamp]
