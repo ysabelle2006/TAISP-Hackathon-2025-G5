@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dinner from "../assets/dinner.jpg";
-import textbox from "../assets/textbox.png"
-import "../style/style.css"
+import textbox from "../assets/textbox.png";
+import "../style/style.css";
 
 export default function Home() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -131,17 +131,21 @@ export default function Home() {
           border: "1px solid white",
         }}
       />
-  
-  <div style={{backgroundImage:textbox}}>
-      {people.map((person) => (
-          <p style={{filter:`blur(${timeStamp/3}px)`}}>
+
+      <div
+        style={{
+          backgroundImage: `url(${textbox})`
+        }}
+      >
+        {people.map((person) => (
+          <p style={{ filter: `blur(${timeStamp / 3}px)` }}>
             {person.name}:{" "}
             {checkInside(person.coordX, person.coordY)
               ? person.text[timeStamp]
               : ""}
           </p>
-      ))}
-  </div>
+        ))}
+      </div>
     </div>
   );
 }
