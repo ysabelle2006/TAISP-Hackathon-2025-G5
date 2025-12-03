@@ -1,36 +1,24 @@
 import React, { useState, useEffect } from "react";
 import dinner from "../assets/dinner.jpg";
-import "../style/style.css";
 
 export default function Home() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [timeStamp, setTimeStamp] = useState(0);
-  const [timer, setTimer] = useState(undefined);
+  const [focused, setFocused] = useState(null); // track currently focused person
 
   const checkInside = (coordX, coordY) => {
-    if (
+    return (
       position.x - 150 < coordX &&
       coordX < position.x + 150 &&
       position.y - 75 < coordY &&
       position.y + 75 > coordY
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   };
-
-  useEffect(() => {
-    if (timer) {
-      window.clearTimeout(timer);
-    }
-    setTimer(window.setTimeout(() => setTimeStamp(timeStamp + 1), 3000));
-  }, [timeStamp]);
 
   const people = [
     {
       coordX: 695,
-      coordY: 210,
+      coordY: 192,
       text: [
         "…the trip was… incredible… so many… mon—…",
         "…your dad almost fell when the mon— grabbed the bag…",
@@ -48,7 +36,7 @@ export default function Home() {
     {
       name: "Dad",
       coordX: 885,
-      coordY: 221,
+      coordY: 201,
       text: [
         "…",
         "…the fisherman showed me a huge snap— snapper?…",
@@ -65,7 +53,7 @@ export default function Home() {
     {
       name: "Grandma",
       coordX: 1129,
-      coordY: 220,
+      coordY: 197,
       text: [
         "…the plane ride… seven hours… turbulence…",
         "…my ears were popping non-stop… horrible…",
@@ -82,7 +70,7 @@ export default function Home() {
     {
       name: "Sister",
       coordX: 439,
-      coordY: 205,
+      coordY: 185,
       text: [
         "…the squid there? soooo good… spicy…",
         "…",
@@ -100,76 +88,61 @@ export default function Home() {
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      // clientX and clientY provide coordinates relative to the browser viewport
       setPosition({ x: event.clientX, y: event.clientY });
     };
-
-    // Attach event listener to the window when the component mounts
     window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []); // Empty dependency array ensures it runs once on mount
+  // Detect entering/leaving a person’s bounding box
+  useEffect(() => {
+    const inside = people.find((p) => checkInside(p.coordX, p.coordY));
+    if (inside) {
+      if (focused !== inside.name) {
+        // we left and came back to a new person → advance dialogue
+        setFocused(inside.name);
+        setTimeStamp((prev) => prev + 1);
+      }
+    } else {
+      setFocused(null);
+    }
+  }, [position]);
 
   return (
     <div>
-      <div style={{ 
-        width: "50%", 
-        margin: "0 auto" 
-        }}
-        >
-        <img className="" src={dinner} />
+      <div style={{ width: "50%", margin: "0 auto" }}>
+        <img src={dinner} alt="Dinner scene" />
       </div>
       <div
         className="bounding-box"
         style={{
           position: "absolute",
-          // Use transform for better performance than 'top' and 'left'
-          // Translate by -50% to center the box on the cursor
-          transform: `translate(${position.x - 150}px, ${position.y - 770}px)`,
+          transform: `translate(${position.x - 150}px, ${position.y - 655}px)`,
           height: "150px",
           width: "300px",
           border: "1px solid white",
         }}
       />
 
-      <div
-        style={{
-        position: "absolute",
-        bottom: 0,
-        left: "50%",
-        transform: "translateX(-50%)", // center horizontally
-        width: "80%",                  // stretch across most of the screen
-        height: "200px",               // adjust height as needed
-        backgroundColor: "rgba(50, 50, 50, 0.7)", // semi-transparent grey
-        borderRadius: "10px",          // optional rounded corners
-        padding: "20px",
-        color: "#fff",
-        fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
-        }}
-      >
-        {people.map((person) => (
-          <p key={person.name}
-          style={{
-            filter: `blur(${timeStamp / 3}px)`,
-            fontSize: "20px",
-            lineHeight: 1.0,
-            margin: "10px 0"
-          }}
-        >
-          <strong>{person.name}:</strong>{" "}
-          {checkInside(person.coordX, person.coordY)
-            ? person.text[timeStamp]
-            : ""}
-
-          </p>
-        ))}
-      </div>
-    </div>
+{/* Textbox */}
+<div className="textbox">
+  {people.map((person) => (
+    <p
+      key={person.name}
+      className={`textbox-line ${
+        !checkInside(person.coordX, person.coordY) ? "muted" : ""
+      }`}
+      style={{ filter: `blur(${timeStamp / 3}px)` }}
+    >
+      <strong>{person.name}:</strong>{" "}
+      {checkInside(person.coordX, person.coordY)
+        ? person.text[Math.min(timeStamp, person.text.length - 1)]
+        : ""}
+    </p>
+  ))}
+  
+</div>
+    </div>  
   );
 }
+

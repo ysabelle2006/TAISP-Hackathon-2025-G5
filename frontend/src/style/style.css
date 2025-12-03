@@ -1,63 +1,184 @@
-/* Reset some default browser styles */
+/* frontend/src/style/style.css */
+
+/* Theme */
+:root {
+    --yellow-bg: #fff7cc;
+    --yellow-accent: #ffe17a;
+    --text: #222;
+    --muted: #666;
+    --grey-70: rgba(50, 50, 50, 0.7);
+    --white: #fff;
+    --border: #ddd;
+    --primary: #7a5cff;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
 body {
     margin: 0;
-    padding: 0;
-    background-color: #333; /* Dark background for the page */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
+    background: var(--yellow-bg);
 }
 
-/* The main game screen area */
-.game-screen {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* Aligns text box to bottom */
-    padding-bottom: 50px; /* Space from bottom of screen */
-    background-image: url('../assets/background.jpg'); /* Optional: Scene background */
-    background-size: cover;
+.app-root.theme-yellow {
+    min-height: 100%;
 }
 
-/* The Text Box Container */
-.vn-textbox-container {
-    /* Link to your image file here */
-    background-image: url('../assets/textbox_bg.png'); 
-    background-size: 100% 100%; /* Stretches image to fit container */
-    background-repeat: no-repeat;
-    
-    /* Size of the text box - Adjust these to match your image's aspect ratio */
-    width: 800px; 
-    height: 250px; 
-    
-    position: relative; /* Allows us to position text absolutely inside */
+/* Menu screen */
+.menu-screen {
+    max-width: 800px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 24px;
 }
 
-/* Character Name Style */
-.vn-name {
-    position: absolute;
-    
-    /* Adjust these values to move the name into the small top-left box */
-    top: 15px;  
-    left: 20px;
-    width: 200px; /* Width of the name box area */
-    
-    color: #ffffff; /* White text */
-    font-size: 24px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px #000000; /* Shadow for readability */
+.title {
+    margin: 0 0 8px;
+    font-size: 42px;
 }
 
-/* Dialogue Text Style */
-.vn-text {
-    position: absolute;
-    
-    /* Adjust these values to fit text inside the main blue box */
-    top: 70px;    /* Push text down below the name box */
-    left: 40px;   /* Push text away from left edge */
-    right: 40px;  /* Keep text away from right edge */
-    bottom: 20px; /* Keep text away from bottom edge */
-    
-    color: #ffffff;
-    font-size: 20px;
-    line-height: 1.5; /* Spacing between lines */
+.subtitle {
+    margin: 0 0 24px;
+    color: var(--muted);
+}
+
+.menu-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Buttons */
+.btn {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.2s ease;
+}
+.btn:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Game layout */
+.game-root {
+  max-width: 1100px;
+  margin: 20px auto 80px;
+  padding: 0 16px;
+  position: relative;
+}
+
+.toggle-menu {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.timer-pill {
+  margin-left: auto;
+  background: var(--yellow-accent);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Image stage */
+.image-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #faf5d7;
+}
+.dinner-img {
+  width: 100%;
+  display: block;
+}
+
+/* Bounding box */
+.bounding-box {
+  position: absolute;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.3) inset;
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+/* Textbox */
+.textbox {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1000px, 92%);
+  background: var(--grey-70);
+  color: gray;
+  padding: 16px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+}
+.textbox-line {
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 8px 0;
+}
+.textbox-line.muted {
+  color: #cfcfcf;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+.modal {
+  width: min(720px, 92%);
+  background: #fffef2;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.modal h2 {
+  margin-top: 0;
+}
+.modal-desc {
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.instructions-list {
+  text-align: left;
+  margin: 12px 0 0;
+}
+.instructions-list li {
+  margin: 8px 0;
+}
+.quiz-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+.btn.quiz {
+  text-align: left;
 }
