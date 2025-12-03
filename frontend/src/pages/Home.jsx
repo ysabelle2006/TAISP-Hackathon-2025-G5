@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dinner from "../assets/dinner.jpg";
-import textbox from "../assets/textbox.png";
 import "../style/style.css";
 import { Card, Input, Modal, Radio, Space, Statistic } from "antd";
-import muffled from "../assets/muffled.mp3";
 import { HeartFill, Heartbreak } from "react-bootstrap-icons";
 
 export default function Home() {
@@ -11,7 +9,6 @@ export default function Home() {
   const [timeStamp, setTimeStamp] = useState(0);
   const [timer, setTimer] = useState(undefined);
   const [isOpen, setIsOpen] = useState(false);
-  const [audio, setAudio] = useState(new Audio(muffled));
   const [next, setNext] = useState(false);
   const [lives, setLives] = useState([true, true, true]);
   const [q1Value, setQ1Value] = useState(1);
@@ -20,24 +17,11 @@ export default function Home() {
   const [q4Value, setQ4Value] = useState(1);
   const [answerRec, setAnswerRec] = useState([]);
   const [isOpen2, setIsOpen2] = useState(false);
-  const {Timer} = Statistic
-  const {TextArea} = Input
-  const [dueTime,setDueTime] = useState(undefined)
-  const [typedAns,setTypedAns] = useState("")
-  
-  /*
-  useEffect(() => {
-    if (audio) {
-      audio.play();
-    }
-  }, [audio]);
-
-  useEffect(() => {
-    if (next) {
-      setAudio(new Audio(robot));
-    }
-  }, [isOpen, next]);
-  */
+  const { Timer } = Statistic;
+  const { TextArea } = Input;
+  const [dueTime, setDueTime] = useState(undefined);
+  const [typedAns, setTypedAns] = useState("");
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const checkSubmit = () => {
     setAnswerRec([q1Value === 1, q2Value === 2, q3Value === 3, q4Value === 4]);
@@ -47,20 +31,29 @@ export default function Home() {
   };
 
   const checkSubmit2 = () => {
-    console.log("here")
-    if (!(typedAns === "I like the view with the infinity pool like Mum" || typedAns === "I love the market like Dad, so many interesting foods" || typedAns === "The view of the sunset from the plane was the best like Grandma said" || typedAns === "The food was the best thing of the trip. Sister too, right?")) {
-        const newLive = lives
-        for (let i = 0; i < lives.length; i ++){
-            if (lives[i]){
-                newLive[i] = !lives[i]
-                break
-            }
+    console.log("here");
+    if (
+      !(
+        typedAns === "I like the view with the infinity pool like Mum" ||
+        typedAns === "I love the market like Dad, so many interesting foods" ||
+        typedAns ===
+          "The view of the sunset from the plane was the best like Grandma said" ||
+        typedAns ===
+          "The food was the best thing of the trip. Sister too, right?"
+      )
+    ) {
+      const newLive = lives;
+      for (let i = 0; i < lives.length; i++) {
+        if (lives[i]) {
+          newLive[i] = !lives[i];
+          break;
         }
-        setLives(newLive)
+      }
+      setLives(newLive);
     }
-    setIsOpen2(false)
-    setNext(false)
-  }
+    setIsOpen2(false);
+    setNext(false);
+  };
 
   const checkInside = (coordX, coordY) => {
     if (
@@ -82,7 +75,7 @@ export default function Home() {
     if ((!isOpen || next) && !isOpen2) {
       setTimer(
         window.setTimeout(() => {
-          setTimeStamp(timeStamp + 1);
+          setTimeStamp((prev) => prev + 1);
           setIsOpen(timeStamp == 9 ? true : false);
           setIsOpen2(timeStamp == 15 ? true : false);
           console.log(timeStamp);
@@ -91,16 +84,16 @@ export default function Home() {
     }
   }, [timeStamp, next]);
 
-  useEffect(()=>{
-    if (isOpen2){
-        setDueTime(Date.now() + 30 * 1000)
+  useEffect(() => {
+    if (isOpen2) {
+      setDueTime(Date.now() + 30 * 1000);
     }
-  },[isOpen2])
+  }, [isOpen2]);
 
   const people = [
     {
-      coordX: 695,
-      coordY: 192,
+      coordX: 766,
+      coordY: 253,
       text: [
         "…the trip was… incredible… so many… mon—…",
         "…your dad almost fell when the mon— grabbed the bag…",
@@ -123,8 +116,8 @@ export default function Home() {
     },
     {
       name: "Dad",
-      coordX: 885,
-      coordY: 201,
+      coordX: 959,
+      coordY: 259,
       text: [
         "…",
         "…the fisherman showed me a huge snap— snapper?…",
@@ -146,8 +139,8 @@ export default function Home() {
     },
     {
       name: "Grandma",
-      coordX: 1129,
-      coordY: 197,
+      coordX: 1205,
+      coordY: 252,
       text: [
         "…the plane ride… seven hours… turbulence…",
         "…my ears were popping non-stop… horrible…",
@@ -169,8 +162,8 @@ export default function Home() {
     },
     {
       name: "Sister",
-      coordX: 439,
-      coordY: 185,
+      coordX: 509,
+      coordY: 245,
       text: [
         "…the squid there? soooo good… spicy…",
         "…",
@@ -208,56 +201,151 @@ export default function Home() {
   }, []); // Empty dependency array ensures it runs once on mount
 
   return (
-    <div>
-      <div>
-        <p style={{ display: "inline", marginRight: "15px" }}>Frustration Level:</p>
+    <div
+      style={{
+        backgroundColor: "#fff9c4",
+        minHeight: "100vh",
+        width: "100vw",
+        margin: 0,
+        padding: 0,
+        fontFamily: "Verdana, sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      {/* Top Bar */}
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          background: "#fffdd8ff",
+          border: "0px solid #333",
+          padding: "10px 20px",
+          borderRadius: "10px",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{marginRight:"50px",marginTop:"10px"}}>
+          <p style={{ display: "inline", marginRight: "15px", color:"black"}}>
+            Frustration Level:
+          </p>
+          <div
+            style={{
+              display: "inline-flex",
+              width: "100px",
+              justifyContent: "space-between",
+            }}
+          >
+            {lives.map((life) =>
+              life ? (
+                <div style={{color:"black"}}>
+                  <HeartFill />
+                </div>
+              ) : (
+                <div style={{color:"black"}}>
+                  <Heartbreak />
+                </div>
+              )
+            )}
+          </div>
+        </div>
+        <button onClick={() => window.location.reload()}>Restart</button>
+        <button onClick={() => alert("Returning to menu...")}>
+          Return to menu
+        </button>
+        <button onClick={() => setShowInstructions(true)}>Instructions</button>
+      </div>
+
+      {/* Instructions Pop-out */}
+      {showInstructions && (
         <div
           style={{
-            display: "inline-flex",
-            position: "absolute",
-            width: "100px",
-            justifyContent: "space-between",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "#fffde7",
+            border: "3px solid #333",
+            padding: "20px",
+            borderRadius: "10px",
+            width: "60%",
+            zIndex: 1000,
           }}
         >
-          {lives.map((life) =>
-            life ? (
-              <div>
-                <HeartFill />
-              </div>
-            ) : (
-              <div>
-                <Heartbreak />
-              </div>
-            )
-          )}
+          <h2 style={{ color: "black" }}>📖 How to Play</h2>
+          <p style={{ color: "black" }}>
+            Move your mouse to control the bounding box. When you hover over a
+            person, their dialogue advances. The textbox shows what they are
+            saying. Try to uncover the full story before time runs out!
+          </p>
+          <button onClick={() => setShowInstructions(false)}>Close</button>
         </div>
-      </div>
-      <div style={{ width: "50%", margin: "0 auto" }}>
-        <img className="" src={dinner} />
-      </div>
-      <div
-        className="bounding-box"
-        style={{
-          position: "absolute",
-          // Use transform for better performance than 'top' and 'left'
-          // Translate by -50% to center the box on the cursor
-          transform: `translate(${position.x - 150}px, ${position.y - 670}px)`,
-          height: "150px",
-          width: "300px",
-          border: "1px solid white",
-        }}
-      />
+      )}
 
-      <div>
+      {/* Centralised Dinner Image */}
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          position: "relative", // important for bounding box overlay
+        }}
+      >
+        <img
+          src={dinner}
+          alt="Dinner scene"
+          style={{ border: "0px solid #333", maxWidth: "80%", height: "auto" }}
+        />
+
+        {/* Bounding Box restored */}
+        <div
+          style={{
+            position: "absolute",
+            top: position.y - 140, // center relative to mouse
+            left: position.x - 150,
+            height: "150px",
+            width: "300px",
+            border: "2px solid #333",
+            backgroundColor: "rgba(255,255,255,0.2)",
+            pointerEvents: "none", // so it doesn’t block mouse events
+          }}
+        />
+      </div>
+
+      {/* Textbox at Bottom */}
+      <div
+        style={{
+          width: "80%",
+          backgroundColor: "rgba(255, 255, 255, 1)",
+          color: "black",
+          padding: "15px",
+          borderRadius: "10px",
+          border: "2px solid #333",
+          marginBottom: "20px",
+        }}
+      >
         {people.map((person) => (
-          <p style={{ filter: `blur(${timeStamp / 8}px)` }}>
-            {person.name}:{" "}
+          <p
+            key={person.name}
+            style={{
+              filter: `blur(${timeStamp / 8}px)`,
+              opacity: checkInside(person.coordX, person.coordY) ? 1 : 0.5,
+              marginBottom: "8px",
+            }}
+          >
+            <strong>{person.name}:</strong>{" "}
             {checkInside(person.coordX, person.coordY)
-              ? person.text[timeStamp]
+              ? person.text[Math.min(timeStamp, person.text.length - 1)]
               : ""}
           </p>
         ))}
       </div>
+
       {isOpen && (
         <Modal
           title={<p>Checkpoint!</p>}
@@ -368,28 +456,69 @@ export default function Home() {
           keyboard={false}
           zIndex={1001}
         >
-            <p>Choose the most appropriate response and type it down:</p>
-            <Timer type="countdown" title="Time Left:" value={dueTime} onFinish={()=>{checkSubmit2()}} />
-            <Space vertical>
+          <p>Choose the most appropriate response and type it down:</p>
+          <Timer
+            type="countdown"
+            title="Time Left:"
+            value={dueTime}
+            onFinish={() => {
+              checkSubmit2();
+            }}
+          />
+          <Space vertical>
             <Card size="small" title="Option 1" style={{ width: 600 }}>
-                <p style={{userSelect:"none"}}>Huh? Sorry, I didn't catch it. Can repeat?</p>
+              <p style={{ userSelect: "none" }}>
+                Huh? Sorry, I didn't catch it. Can repeat?
+              </p>
             </Card>
             <Card size="small" title="Option 2" style={{ width: 600 }}>
-                {answerRec[0] ? <p style={{userSelect:"none"}}>I like the view with the infinity pool like Mum</p> : <p>I want to go Japan next time</p>}
+              {answerRec[0] ? (
+                <p style={{ userSelect: "none" }}>
+                  I like the view with the infinity pool like Mum
+                </p>
+              ) : (
+                <p>I want to go Japan next time</p>
+              )}
             </Card>
             <Card size="small" title="Option 3" style={{ width: 600 }}>
-                {answerRec[1] ? <p style={{userSelect:"none"}}>I love the market like Dad, so many interesting foods</p> : <p>We had to wake up so early for the market</p>}
+              {answerRec[1] ? (
+                <p style={{ userSelect: "none" }}>
+                  I love the market like Dad, so many interesting foods
+                </p>
+              ) : (
+                <p>We had to wake up so early for the market</p>
+              )}
             </Card>
             <Card size="small" title="Option 4" style={{ width: 600 }}>
-                {answerRec[2] ? <p style={{userSelect:"none"}}>The view of the sunset from the plane was the best like Grandma said</p> : <p>The plane was so rough like Grandma said</p>}
+              {answerRec[2] ? (
+                <p style={{ userSelect: "none" }}>
+                  The view of the sunset from the plane was the best like
+                  Grandma said
+                </p>
+              ) : (
+                <p>The plane was so rough like Grandma said</p>
+              )}
             </Card>
             <Card size="small" title="Option 5" style={{ width: 600 }}>
-                {answerRec[3] ? <p style={{userSelect:"none"}}>The food was the best thing of the trip. Sister too, right?</p> : <p>I am so full from dinner</p>}
+              {answerRec[3] ? (
+                <p style={{ userSelect: "none" }}>
+                  The food was the best thing of the trip. Sister too, right?
+                </p>
+              ) : (
+                <p>I am so full from dinner</p>
+              )}
             </Card>
-            </Space>
-            <br />
-            <br />
-            <TextArea style={{borderRadius:"2px"}} rows={4} placeholder="Type here..." onChange={(e)=>{setTypedAns(e.target.value)}}/>
+          </Space>
+          <br />
+          <br />
+          <TextArea
+            style={{ borderRadius: "5px" }}
+            rows={4}
+            placeholder="Type here..."
+            onChange={(e) => {
+              setTypedAns(e.target.value);
+            }}
+          />
         </Modal>
       )}
     </div>
