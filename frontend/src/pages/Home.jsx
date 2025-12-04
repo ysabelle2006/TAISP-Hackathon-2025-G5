@@ -477,7 +477,7 @@ export default function Home() {
                   I like the view with the infinity pool like Mum
                 </p>
               ) : (
-                <p>I want to go Japan next time</p>
+                <p style={{ userSelect: "none" }}>I want to go Japan next time</p>
               )}
             </Card>
             <Card size="small" title="Option 3" style={{ width: 600 }}>
@@ -486,7 +486,7 @@ export default function Home() {
                   I love the market like Dad, so many interesting foods
                 </p>
               ) : (
-                <p>We had to wake up so early for the market</p>
+                <p style={{ userSelect: "none" }}>We had to wake up so early for the market</p>
               )}
             </Card>
             <Card size="small" title="Option 4" style={{ width: 600 }}>
@@ -496,7 +496,7 @@ export default function Home() {
                   Grandma said
                 </p>
               ) : (
-                <p>The plane was so rough like Grandma said</p>
+                <p style={{ userSelect: "none" }}>The plane was so rough like Grandma said</p>
               )}
             </Card>
             <Card size="small" title="Option 5" style={{ width: 600 }}>
@@ -505,7 +505,7 @@ export default function Home() {
                   The food was the best thing of the trip. Sister too, right?
                 </p>
               ) : (
-                <p>I am so full from dinner</p>
+                <p style={{ userSelect: "none" }}>I am so full from dinner</p>
               )}
             </Card>
           </Space>
